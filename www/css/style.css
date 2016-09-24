@@ -1,22 +1,52 @@
-.header{
-	padding-top: 15%;
+.header {
+	padding-top: 20%;
 	margin-left: auto;
 	margin-right: auto;
 	width: 6em;
 	text-align: center;
-	color: #7E7C7C;
+	color: #696969;
 	font-family: 'Lobster', cursive;
 	font-size: 56px;
 }
 
-.button.button-calm{
+.button.button-calm, button.button-calm.activated {
 	width: 5em;
-	background-color: #297E8B;
-	color: #C1C1C1;
+	background-color: #5083BD !important;
+	color: #EBEBEB;
 }
 
-.button_div{
-	margin-left: auto;
-	margin-right: auto;
-	width: 12em;
+button.button-calm.activated {
+	background-color: #4572A4 !important;
+}
+
+.button-stable {
+	background-color: #C4C4C4 !important;
+}
+
+.button_div {
+	margin-top: 7%;
+	text-align: center;
+	width: 100%;
+}
+
+.home-button {
+	margin-left: 6%;
+	margin-right: 6%;
+	border-radius: 10px 10px;
+}
+
+.tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
+    color: #5083BD;
+}
+
+.popup-body {
+	background-color: rgba(246,246,246,1) !important;
+    opacity: 1.0 !important;
+    z-index: 100000 !important;
+}
+
+.popup-head {
+	background-color: rgba(246,246,246,1) !important;
+    opacity: 1.0 !important;
+    z-index: 100000 !important;
 }

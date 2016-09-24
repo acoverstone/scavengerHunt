@@ -8,17 +8,45 @@
 
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, Hunts) {
+.controller('HomeCtrl', function($scope, $ionicPopup, Hunts) {
 
     $scope.locations = [];
-
+    $scope.huntCode = {
+        text: ''
+    };
     Hunts.getData().then(function() {
         $scope.locations = Hunts.locations;
         Hunts.locations.forEach(function(location) {
             $scope.locations.push(location);
-        })
-           
+        })      
     });
+
+
+    
+
+    $scope.joinHunt = function() {
+        $ionicPopup.alert({
+            title: 'Join A Scavenger Hunt',
+            subTitle: 'Enter the code for an already created hunt:',
+            template: '<input type="text" ng-model="huntCode.text">',
+            scope: $scope,
+            buttons: [
+            { 
+                text: 'Cancel',
+                type: 'button-light'
+            },
+            { 
+                text: 'Join!',
+                type: 'button-stable',
+                onTap: function(e) {
+                    console.log($scope.huntCode.text)
+                    // User.deleteFavorite(businessName);
+                    $scope.huntCode.text = '';
+                    // $state.go($state.current, {}, {reload: true});
+                }
+            }]
+        });
+    }
 
 })
 
