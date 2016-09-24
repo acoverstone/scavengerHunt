@@ -14,12 +14,14 @@ angular.module('starter.controllers', [])
     $scope.huntCode = {
         text: ''
     };
-    Hunts.getData().then(function() {
-        $scope.locations = Hunts.locations;
-       
-        console.log($scope.locations)     
-    });
 
+    if($scope.locations == []) {
+        Hunts.getData().then(function() {
+            $scope.locations = Hunts.locations;
+           
+            console.log($scope.locations)     
+        });
+    }
 
     
 
