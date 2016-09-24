@@ -15,7 +15,7 @@ angular.module('starter.controllers', [])
         text: ''
     };
 
-    if($scope.locations == []) {
+    if(Hunts.locations.length == 0) {
         Hunts.getData().then(function() {
             $scope.locations = Hunts.locations;
            
