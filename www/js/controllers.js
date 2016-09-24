@@ -16,9 +16,8 @@ angular.module('starter.controllers', [])
     };
     Hunts.getData().then(function() {
         $scope.locations = Hunts.locations;
-        Hunts.locations.forEach(function(location) {
-            $scope.locations.push(location);
-        })      
+       
+        console.log($scope.locations)     
     });
 
 
@@ -50,7 +49,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('CurrentCtrl', function($scope, Chats) {
+.controller('CurrentCtrl', function($scope) {
 
 
 })
