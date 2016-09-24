@@ -1,0 +1,22 @@
+.header{
+	padding-top: 15%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 6em;
+	text-align: center;
+	color: #7E7C7C;
+	font-family: 'Lobster', cursive;
+	font-size: 56px;
+}
+
+.button.button-calm{
+	width: 5em;
+	background-color: #297E8B;
+	color: #C1C1C1;
+}
+
+.button_div{
+	margin-left: auto;
+	margin-right: auto;
+	width: 12em;
+}
