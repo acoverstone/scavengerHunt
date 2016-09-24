@@ -16,7 +16,6 @@ angular.module('starter.services', [])
                 if(count == max) break;
                 count++;
                 o.locations.push(key);
-
             }
 
             var length = Object.keys(snapshot.val()).length;
@@ -25,7 +24,6 @@ angular.module('starter.services', [])
             }
 
             console.log(o.items);
-            console.log(o.locations);
         })
     }
 
