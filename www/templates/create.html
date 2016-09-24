@@ -1,7 +1,19 @@
 <ion-view view-title="Create Hunt">
-  <ion-content>
-    <div class = "location_list">
-
-    </div>
-  </ion-content>
+  <body ng-controller="FirstController">
+   <!-- add some ionic style with header -->
+   <ion-header-bar class="bar">
+        <h1 class="title">Create Hunt</h1>
+   </ion-header-bar>
+   <!-- ionic content area -->
+   <ion-content class="padding">
+      <ion-list>
+         <!-- add a section header -->
+         <ion-item class="item-divider">List of Locations</ion-item>
+            <!-- iterate thru each item in the list, use $index as item identifier -->
+            <ion-item ng-repeat="location in locations">
+            {{$scope.locations}}
+            </ion-item>
+      </ion-list>
+   </ion-content>
+</body
 </ion-view view-title>
