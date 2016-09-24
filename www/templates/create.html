@@ -2,8 +2,8 @@
 
    
    <ion-header-bar class="bar">
-	    <button class="button button-clear ion-arrow-left-c" id="back" ></button>
-        <h1 class="title">Pick Your Location</h1>
+	    <button class="button button-clear ion-arrow-left-c" id="back" ng-click="goto('tab.home', '')" ></button>
+        <h1 class="title barTitle">Pick Your Location</h1>
    </ion-header-bar>
    
    <div class="bar bar-subheader item-input-inset bar-light" style="background-color: #FFFFFF !important; border-top: 0px solid #BFC2C1 !important;">
@@ -14,7 +14,7 @@
    	</div>
    <ion-content class="has-subheader">
       <ion-list>
-            <ion-item ng-repeat="location in locations | filter: query">
+            <ion-item ng-repeat="location in locations | filter: query" ng-click="pickLocation(location)">
             {{location}}
             </ion-item>
       </ion-list>

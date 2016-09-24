@@ -4,7 +4,8 @@ angular.module('starter.services', ['ionic.utils'])
 
     var o = {
         items: [],
-        locations: []
+        locations: [], 
+        playing: false
     }
 
     o.getData = function() {
