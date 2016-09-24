@@ -8,8 +8,6 @@ App for iOS and Android that uses Clarifai API to identify objects and fill out 
 Coming soon....
 ```bash
 npm install -g browserify
-
-```bash
 npm install Clarifai
 ```
 
