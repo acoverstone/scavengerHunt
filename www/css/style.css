@@ -54,3 +54,12 @@ button.button-calm.activated {
 a {
 	text-decoration: none;
 }
+
+#noHunt {
+	text-align: center;
+	padding-top: 30%;
+	margin-left: 7%;
+	margin-right: 7%;
+	color: #696969 !important;
+	font-weight: 700 !important;
+}

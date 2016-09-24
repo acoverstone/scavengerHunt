@@ -69,8 +69,13 @@ angular.module('starter.controllers', ['ionic'])
 
 })
 
-.controller('CurrentCtrl', function($scope) {
+.controller('CurrentCtrl', function($scope, Hunts) {
 
+    $scope.username = {
+        text: ''
+    };
+    $scope.username.text = Hunts.getUsername();
+    console.log($scope.username);
 
 })
 
