@@ -1,25 +1,39 @@
-// With the new view caching in Ionic, Controllers are only called
-// when they are recreated or on app start, instead of every page change.
-// To listen for when this page is active (for example, to refresh data),
-// listen for the $ionicView.enter event:
-//
-//$scope.$on('$ionicView.enter', function(e) {
-//});
-
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic'])
 
 .controller('HomeCtrl', function($scope, $ionicPopup, Hunts) {
-
+        
     $scope.locations = [];
     $scope.huntCode = {
         text: ''
     };
+    $scope.username = {
+        text: ''
+    };
 
-    if(Hunts.locations.length == 0) {
-        Hunts.getData().then(function() {
-            $scope.locations = Hunts.locations;
-           
-            console.log($scope.locations)     
+
+
+    Hunts.getData().then(function() {
+        $scope.locations = Hunts.locations;
+        $scope.username.text = Hunts.getUsername();
+        // console.log($scope.locations);   
+        // console.log($scope.username.text);
+    });
+    
+
+    if(Hunts.isInitialRun()) {
+        Hunts.setInitialRun('false');
+        $ionicPopup.alert({
+            title: 'Welcome To Scavenger Hunt!',
+            template: "<p style='text-align:center'>This app creates automated scavenger hunts for your favorite locations that you can play by yourself or with friends! Just start a hunt or join a friend's, then take pictures of items and watch them get checked off your list! Enter a username below: <p> <br> <input type='text' ng-model='username.text'>",
+            scope: $scope,
+            buttons: [{ 
+                text: 'Lets Get Started!',
+                type: 'button-stable',
+                onTap: function(e) {
+                    console.log($scope.username.text)
+                    Hunts.setUsername($scope.username.text);
+                }
+            }]
         });
     }
 
@@ -49,10 +63,19 @@ angular.module('starter.controllers', [])
         });
     }
 
+    $scope.goto = function(toState, param) {
+        $state.go(toState, param)
+    };
+
 })
 
-.controller('CurrentCtrl', function($scope) {
+.controller('CurrentCtrl', function($scope, Hunts) {
 
+    $scope.username = {
+        text: ''
+    };
+    $scope.username.text = Hunts.getUsername();
+    console.log($scope.username);
 
 })
 
