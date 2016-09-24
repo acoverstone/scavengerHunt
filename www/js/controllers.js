@@ -8,19 +8,28 @@
 
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope) {})
+.controller('HomeCtrl', function($scope, Hunts) {
+
+    $scope.locations = [];
+
+    Hunts.getData().then(function() {
+        $scope.locations = Hunts.locations;
+        Hunts.locations.forEach(function(location) {
+            $scope.locations.push(location);
+        })
+           
+    });
+
+})
 
 .controller('CurrentCtrl', function($scope, Chats) {
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+
 })
 
 
 .controller('PastCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+
+
+
 });
