@@ -50,3 +50,7 @@ button.button-calm.activated {
     opacity: 1.0 !important;
     z-index: 100000 !important;
 }
+
+a {
+	text-decoration: none;
+}
