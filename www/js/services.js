@@ -5,7 +5,8 @@ angular.module('starter.services', ['ionic.utils'])
     var o = {
         items: [],
         locations: [], 
-        playing: false
+        hunts: [],
+        playing: ''
     }
 
     o.getData = function() {
@@ -30,8 +31,39 @@ angular.module('starter.services', ['ionic.utils'])
         return firebase.database().ref('locations').once('value').then(function(snapshot) {})
     }
 
+    o.getHunts = function() {
+        if(o.locations.length == 0) {
+            return firebase.database().ref('hunts').once('value').then(function(snapshot) {
+
+                keyList = [];
+                for(var key in snapshot.val()) {
+                  keyList.push(key);
+                }
+
+                var length = Object.keys(snapshot.val()).length;
+                for(var i = 0; i < length; i++) {
+                    o.hunts.push(snapshot.val()[keyList[i]]);
+                }
+            });
+        }
+        return firebase.database().ref('hunts').once('value').then(function(snapshot) {})
+    }
+
+    o.getHuntByID = function(ID) {
+        var max = Object.keys(o.hunts).length;
+        for(var i = 0; i < max; i++){
+            if(o.hunts[i]['id'] == ID){
+                return o.hunts[i];
+            }
+        }
+        return 0;
+    }
 
 
+
+
+
+    // Getters and setters to local storage
     o.setInitialRun = function(initial) {
         $localstorage.setObject('initialRun', initial);
     }
@@ -50,6 +82,17 @@ angular.module('starter.services', ['ionic.utils'])
 
     o.getUsername = function() {
         return $localstorage.getObject('username');
+    }
+
+    o.setPlaying = function(playing) {
+        $localstorage.setObject('playing', playing);
+    }
+
+    o.getPlaying = function() {
+        if(Object.keys($localstorage.getObject('playing')).length != 0){
+            return $localstorage.getObject('playing');
+        }
+        return '';
     }
 
 
