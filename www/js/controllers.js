@@ -258,7 +258,7 @@ angular.module('starter.controllers', ['ionic'])
         };
         $scope.username.text = Hunts.getUsername();
         $scope.hunt = Hunts.getHuntByID(Hunts.playing);
-        console.log($scope.hunt);
+        $scope.items = $scope.hunt['items'];
     });
 
 

@@ -4,7 +4,7 @@
         <h1 class="title">Your Scavenger Hunt</h1>
    	</ion-header-bar>
 
-  	<ion-content class="has-subheader">
+  	<ion-content>
 
 		<ion-refresher
   			pulling-text="Pull to refresh..."
@@ -13,11 +13,27 @@
 
   		<h4 id="noHunt" ng-if="hunt == 0">Hi, {{username.text}}! Join a scavenger hunt or create one from the home page!</h4>
 
-    	<div class = "location_list">
-			
-
-
-
+    	<div class = "list list-inset" ng-if="hunt != 1">
+    		<div class="item item-divider">
+    			{{hunt.location}} Hunt
+    		</div>
+			<div class="item">
+				<ion-list>
+					<ion-checkbox ng-repeat="item in items">{{item}}</ion-checkbox>
+				</ion-list>
+			</div>
     	</div>
+
+    	<div class="bottom-buttons">
+    		<button class="button button-calm">
+    			Leave
+    		</button>
+    		<button class="button button-calm">
+    			Scoreboard
+    		</button>
+    		<button class="button button-calm">
+    			Take Picture
+    		</button>
+      	</div>
   	</ion-content>
 </ion-view>
