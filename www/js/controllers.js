@@ -1,10 +1,3 @@
-/*
-    
-
-
-*/
-
-
 angular.module('starter.controllers', ['ionic'])
 
 .controller('HomeCtrl', function($scope, $ionicPopup, $state, Hunts) {
@@ -12,6 +5,7 @@ angular.module('starter.controllers', ['ionic'])
     $scope.locations = [];
     $scope.items = [];
     $scope.huntList = [];
+    $scope.keyList = [];
     $scope.huntCode = {
         text: ''
     };
@@ -20,11 +14,14 @@ angular.module('starter.controllers', ['ionic'])
     };
 
 
+
     // Gets data from the service
     Hunts.getData().then(function() {
         $scope.locations = Hunts.locations;
         $scope.items = Hunts.items;
+        $scope.keyList = Hunts.keyList;
         $scope.username.text = Hunts.getUsername();
+        Hunts.getPlaying();
         // console.log($scope.locations);   
         // console.log($scope.username.text);
     });
@@ -76,11 +73,14 @@ angular.module('starter.controllers', ['ionic'])
                         $scope.alertHunt($scope.huntCode.text);
 
                         // add player
+                        $scope.addPlayer($scope.huntCode.text);
 
                         // set playing and clear code
                         Hunts.playing = $scope.huntCode.text;
                         Hunts.setPlaying($scope.huntCode.text);
                         $scope.huntCode.text = '';
+
+                        // TODO: goto(current hunt)
                         
                     } else {
                         $scope.errorMsg();
@@ -91,8 +91,22 @@ angular.module('starter.controllers', ['ionic'])
     }
 
     // add player to database and local copy
-    $scope.joinPlayer = function(ID) {
-        console.log(Hunts.getHuntByID(ID));
+    $scope.addPlayer = function(ID) {
+        var player = { name: $scope.username.text, score: 0};
+
+        for(var i = 0; i < $scope.huntList.length; i++) {
+            if($scope.huntList[i]['id'] == ID) {
+                var currentPlayers = $scope.huntList[i]['people'];
+                currentPlayers.push(player);
+                
+                var updates = {};
+                updates['hunts/' + keyList[i] + '/people'] = currentPlayers;
+                firebase.database().ref().update(updates);
+
+                $scope.huntList[i]['people'] = currentPlayers;
+
+            }
+        }
     }
 
     // function to pick location, calls create hunt
@@ -123,6 +137,8 @@ angular.module('starter.controllers', ['ionic'])
                         Hunts.playing = $scope.huntCode.text;
                         Hunts.setPlaying($scope.huntCode.text);
                         $scope.huntCode.text = '';
+
+                        // TODO: goto(current hunt)
                     } else {
                         $scope.errorMsg();
                     }
@@ -219,14 +235,19 @@ angular.module('starter.controllers', ['ionic'])
 
 })
 
+
+
+
+
+
+
 .controller('CurrentCtrl', function($scope, Hunts) {
 
     $scope.username = {
         text: ''
     };
     $scope.username.text = Hunts.getUsername();
-    // $scope.huntList = Hunts.hunts;  cut this, get individual hunt.
-
+    $scope.hunt = Hunts.getHuntByID(Hunts.playing);
 
 })
 
