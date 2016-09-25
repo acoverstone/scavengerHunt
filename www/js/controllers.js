@@ -250,15 +250,16 @@ angular.module('starter.controllers', ['ionic'])
 
 
 
-.controller('CurrentCtrl', function($scope, Hunts) {
+.controller('CurrentCtrl', function($scope, $state, Hunts) {
 
-    $scope.username = {
-        text: ''
-    };
-    $scope.username.text = Hunts.getUsername();
-    $scope.hunt = Hunts.getHuntByID(Hunts.playing);
-
-
+    $scope.$on('$ionicView.enter', function() {
+        $scope.username = {
+            text: ''
+        };
+        $scope.username.text = Hunts.getUsername();
+        $scope.hunt = Hunts.getHuntByID(Hunts.playing);
+        console.log($scope.hunt);
+    });
 
     $scope.doRefresh = function() {
         Hunts.getHunts().then(function() {

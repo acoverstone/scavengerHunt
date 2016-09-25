@@ -6,6 +6,11 @@
 
   	<ion-content class="has-subheader">
 
+		<ion-refresher
+  			pulling-text="Pull to refresh..."
+  			on-refresh="doRefresh()">
+		</ion-refresher>
+
   		<h4 id="noHunt" ng-if="hunt == 0">Hi, {{username.text}}! Join a scavenger hunt or create one from the home page!</h4>
 
     	<div class = "location_list">
