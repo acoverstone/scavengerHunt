@@ -6,7 +6,6 @@ angular.module('starter.services', ['ionic.utils'])
         items: [],
         locations: [], 
         hunts: [],
-        keyList: [],
         playing: ''
     }
 
@@ -21,10 +20,6 @@ angular.module('starter.services', ['ionic.utils'])
                     o.locations.push(key);
                 }
 
-                for(var key in snapshot.val()){
-                    o.keyList.push(key);
-                }
-
                 var length = Object.keys(snapshot.val()).length;
                 for(var i = 0; i < length; i++) {
                     o.items.push(snapshot.val()[o.locations[i]]);
@@ -37,7 +32,8 @@ angular.module('starter.services', ['ionic.utils'])
     }
 
     o.getHunts = function() {
-        if(o.locations.length == 0) {
+        o.hunts = [];
+        if(o.hunts.length == 0) {
             return firebase.database().ref('hunts').once('value').then(function(snapshot) {
 
                 keyList = [];

@@ -1,5 +1,11 @@
 <ion-view>
   <ion-content class="padding">
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
+
+
     <h1 class="header">Scavenger Hunt</h1>
 
     <div class="button_div">

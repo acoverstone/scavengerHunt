@@ -5,7 +5,6 @@ angular.module('starter.controllers', ['ionic'])
     $scope.locations = [];
     $scope.items = [];
     $scope.huntList = [];
-    $scope.keyList = [];
     $scope.huntCode = {
         text: ''
     };
@@ -19,7 +18,6 @@ angular.module('starter.controllers', ['ionic'])
     Hunts.getData().then(function() {
         $scope.locations = Hunts.locations;
         $scope.items = Hunts.items;
-        $scope.keyList = Hunts.keyList;
         $scope.username.text = Hunts.getUsername();
         Hunts.getPlaying();
         // console.log($scope.locations);   
@@ -30,6 +28,8 @@ angular.module('starter.controllers', ['ionic'])
         $scope.huntList = Hunts.hunts;
         console.log($scope.huntList);
     })
+
+
     
     // Checks inital run of app
     if(Hunts.isInitialRun()) {
@@ -233,6 +233,15 @@ angular.module('starter.controllers', ['ionic'])
         });
     }
 
+
+    $scope.doRefresh = function() {
+        Hunts.getHunts().then(function() {
+            $scope.huntList = Hunts.hunts;
+            console.log($scope.huntList);
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    };
+
 })
 
 
@@ -248,6 +257,14 @@ angular.module('starter.controllers', ['ionic'])
     };
     $scope.username.text = Hunts.getUsername();
     $scope.hunt = Hunts.getHuntByID(Hunts.playing);
+
+
+
+    $scope.doRefresh = function() {
+        Hunts.getHunts().then(function() {
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    };
 
 })
 
