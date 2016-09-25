@@ -80,8 +80,49 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 
-.controller('PastCtrl', function($scope) {
+.controller('PastCtrl', function($scope, $ionicPopup) {
+	$scope.url = {
+        text: ''
+    };
 
+	$scope.postUrl = function(){
+	 $ionicPopup.alert({
+            title: 'Enter url',
+            template: '<input type="text" ng-model="url.text">',
+            scope: $scope,
+            buttons: [{ 
+                text: 'Enter',
+                type: 'button-stable',
+                onTap: function(e) {
+                    console.log($scope.url.text);
+             		
+             		Clarifai.getToken().then(
+             			handleResponse,
+             			handleError
+             		);
 
+                    Clarifai.getTagsByUrl($scope.url.text).then(
+                    	handleResponse,
+                    	handleError
+                    );
+
+                    Clarifai.getInfo().then(
+                    	handleResponse,
+                    	handleError);
+                    
+                }
+            }]
+        })
+	}
+
+	function handleResponse(response){
+		console.log('promise response:', response);
+	}
+
+	function handleError(err){
+		console.log('promise error:', err);
+	}
 
 });
+
+
