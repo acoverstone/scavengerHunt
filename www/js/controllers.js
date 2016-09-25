@@ -249,6 +249,8 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
 .controller('CurrentCtrl', function($scope, $state, Hunts, $ionicPopup, $cordovaCamera, $ionicPlatform) {
     $scope.huntList = [];
     $scope.hunt = {};
+    $scope.results = [];
+    $scope.we = true;
 
     $scope.$on('$ionicView.enter', function() {
         $scope.huntList = Hunts.hunts;
@@ -297,6 +299,9 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
             }]
             
         });
+
+
+        // need to add functionality to delete the game and post leaderboard
     }
 
 
@@ -304,7 +309,6 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
         Hunts.getHunts().then(function() {
             $scope.huntList = Hunts.hunts;
             $scope.$broadcast('scroll.refreshComplete');
-            $scope.incrementScore();
         });
     };
 
@@ -332,7 +336,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
     }
 
 
-
+    // push picture to google and call clarifai
     $scope.postPic = function(imgData) {
 
         var uploadTask = firebase.storage().ref().child('images/temp.jpg').putString(imgData, 'base64').then(function(snapshot) {
@@ -341,11 +345,9 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
             $scope.clarifaiTest(downloadURL);
         });
         
-
     }
 
-
-
+    // get results from picture, and check results
     $scope.clarifaiTest = function(imgURL) {
         Clarifai.getToken().then(
             handleResponse,
@@ -358,24 +360,78 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
         );
     }
 
+    // check picture to see if any items can be checked off
     $scope.checkPicture = function(response) {
-        console.log(response);
+
+        for(var i = 0; i < response.length; i++){
+            if($scope.items.includes(response[i])){
+                $scope.foundItem(response[i]);
+                return true;
+            }
+        }
+
     }
 
-    $scope.clarifaiTest('https://firebasestorage.googleapis.com/v0/b/scavengerhunt-3fa44.appspot.com/o/images%2FFriends.jpg?alt=media&token=8e57acfd-2a7a-4883-a57e-0950d714ee07');
+    // alert if item is found and check for win
+    $scope.foundItem = function(item) {
+        $scope.results.push(item);
+        console.log($scope.results);
+        $ionicPopup.alert({
+            title: 'Awesome!',
+            template: "<p style='text-align:center;'>You found one " + item + "!</p>" ,
+            buttons: 
+            [{ 
+                text: 'Okay',
+                type: 'button-stable',
+                onTap: function(e) {
+                    $scope.incrementScore();
+                    $scope.doRefresh();
+                }
+            }]
+        });
+
+        
+    }
 
 
+    // check if anything 
+    $scope.checkResults = function(item) {
+        return $scope.results.includes(item);
+    }
+
+
+
+
+    // success for clarifai test, delete picture and check if any results are found
     function handleResponse(response){
         // console.log('promise response:', response);
-        $scope.checkPicture(response)
+        $scope.checkPicture(response['results'][0]['result']['tag']['classes']);
+
+        firebase.storage().ref().child('images/temp.jpg').delete().then(function() {});
     }
 
+    // fail for clarifai test
     function handleError(err){
-        console.log('promise error:', err.status_msg);
+        $ionicPopup.alert({
+            title: 'Oops!',
+            template: "<p style='text-align:center;'>There was something wrong with your picture, try again.</p>" ,
+            buttons: 
+            [{ 
+                text: 'Okay',
+                type: 'button-stable'
+            }]
+            
+        });
     }
 
 
 })
+
+
+
+
+
+
 
 
 .controller('PastCtrl', function($scope, $ionicPopup) {

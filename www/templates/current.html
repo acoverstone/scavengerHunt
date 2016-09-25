@@ -17,11 +17,11 @@
 
     	<div class="list card huntList" ng-if="hunt != 0">
     		<div class="item item-icon-left">
-    			<h2 class="listTitle">{{hunt.location}} Scavenger Hunt &nbsp;&nbsp;<span class="" style="font-weight:400; font-size:70%; color:#ABABAB !important" >{{hunt.id}}</span></h2></h2>
+    			<h2 class="listTitle">{{hunt.location}} Scavenger Hunt&nbsp;&nbsp;<span class="" style="font-weight:400; font-size:70%; color:#ABABAB !important" >{{hunt.id}}</span></h2></h2>
     		</div>
 
 			<a class="item item-icon-left" ng-repeat="item in items">
-    			<i class="icon emptyCheck ion-android-checkbox-outline-blank" ng-class=""></i>
+    			<i class="icon emptyCheck" ng-class="checkResults(item) ? 'ion-android-checkbox-outline' : 'ion-android-checkbox-outline-blank'"></i>
     			<!-- ion-android-checkbox-outline -->
     			<p style="color:#696969 !important">{{item}}</p>
   			</a>
