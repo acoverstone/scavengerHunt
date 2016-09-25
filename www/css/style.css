@@ -1,12 +1,22 @@
+ion-content {
+	background-color: #DFDFDF !important;
+}
+
 .header {
 	padding-top: 20%;
 	margin-left: auto;
 	margin-right: auto;
-	width: 6em;
 	text-align: center;
 	color: #464646 !important;
 	font-family: 'Lobster', cursive;
 	font-size: 56px;
+}
+
+.listTitle {
+	color: #464646;
+	text-align: center;
+	font: 25px "Lato", sans-serif !important;
+	font-weight: 900;
 }
 
 .button.button-calm, button.button-calm.activated {
@@ -95,4 +105,14 @@ a {
 	margin-left: auto;
 	width: 30em;
 	padding-top: 55%;
+}
+
+.huntList {
+	margin: 35px;
+}
+
+
+.emptyCheck, .ion-android-checkbox-outline-blank{
+	color:#696969 !important;
+	font-size: 160% !important;
 }

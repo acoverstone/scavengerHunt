@@ -13,27 +13,28 @@
 
   		<h4 id="noHunt" ng-if="hunt == 0">Hi, {{username.text}}! Join a scavenger hunt or create one from the home page!</h4>
 
-    	<div class = "list list-inset" ng-if="hunt != 1">
-    		<div class="item item-divider">
-    			{{hunt.location}} Hunt
+    	<div class="list card huntList" ng-if="hunt != 0">
+    		<div class="item ">
+    			<h4 class="listTitle">{{hunt.location}} Scavenger Hunt: "{{hunt.id}}"</h4>
     		</div>
-			<div class="item">
-				<ion-list>
-					<ion-checkbox ng-repeat="item in items">{{item}}</ion-checkbox>
-				</ion-list>
-			</div>
+
+			<a class="item item-icon-left" ng-repeat="item in items">
+    			<i class="icon emptyCheck ion-android-checkbox-outline-blank"></i>
+    			<p style="color:#696969 !important">{{item}}</p>
+  			</a>
+
     	</div>
 
-    	<div class="bottom-buttons">
+    	<!-- <div class="bottom-buttons">
     		<button class="button button-calm">
     			Leave
     		</button>
     		<button class="button button-calm">
     			Scoreboard
     		</button>
-    		<button class="button button-calm">
+    		<button class="button button-calm" ng-click="takePicture()">
     			Take Picture
     		</button>
-      	</div>
+      	</div> -->
   	</ion-content>
 </ion-view>

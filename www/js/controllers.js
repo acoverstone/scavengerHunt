@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ionic'])
+angular.module('starter.controllers', ['ionic', 'ngCordova'])
 
 .controller('HomeCtrl', function($scope, $ionicPopup, $state, Hunts) {
         
@@ -246,7 +246,7 @@ angular.module('starter.controllers', ['ionic'])
 
 
 
-.controller('CurrentCtrl', function($scope, $state, Hunts, $ionicPopup) {
+.controller('CurrentCtrl', function($scope, $state, Hunts, $ionicPopup, $cordovaCamera, $ionicPlatform) {
     $scope.huntList = [];
     $scope.hunt = {};
 
@@ -308,51 +308,76 @@ angular.module('starter.controllers', ['ionic'])
         });
     };
 
+    $scope.takePicture = function() {
+
+        var options = {
+            quality: 100,
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: Camera.PictureSourceType.CAMERA,
+            allowEdit: true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 500,
+            targetHeight: 500,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: false
+        };
+
+        $cordovaCamera.getPicture(options).then(function(imageData) {
+            var imgURL = "data:image/jpeg;base64," + imageData;
+            $scope.postPic(imageData);
+        }, function(err) {
+            //error
+        });
+           
+    }
+
+
+
+    $scope.postPic = function(imgData) {
+
+        var uploadTask = firebase.storage().ref().child('images/temp.jpg').putString(imgData, 'base64').then(function(snapshot) {
+            var downloadURL = uploadTask.snapshot.downloadURL;
+
+            $scope.clarifaiTest(downloadURL);
+
+        });
+        
+
+    }
+
+
+
+    $scope.clarifaiTest = function(imgURL) {
+        Clarifai.getToken().then(
+            handleResponse,
+            handleError
+        );
+
+        Clarifai.getTagsByUrl(imgURL).then(
+            handleResponse,
+            handleError
+        );
+
+
+    }
+
+    // $scope.clarifaiTest('https://firebasestorage.googleapis.com/v0/b/scavengerhunt-3fa44.appspot.com/o/images%2Ftemp.jpg?alt=media&token=71bc1baa-07a8-4539-b17e-d87c41c7f696');
+
+
+    function handleResponse(response){
+        console.log('promise response:', response);
+    }
+
+    function handleError(err){
+        console.log('promise error:', err.status_msg);
+    }
+
+
 })
 
 
 .controller('PastCtrl', function($scope, $ionicPopup) {
-	$scope.url = {
-        text: ''
-    };
 
-	$scope.postUrl = function(){
-	 $ionicPopup.alert({
-            title: 'Enter url',
-            template: '<input type="text" ng-model="url.text">',
-            scope: $scope,
-            buttons: [{ 
-                text: 'Enter',
-                type: 'button-stable',
-                onTap: function(e) {
-                    console.log($scope.url.text);
-             		
-             		Clarifai.getToken().then(
-             			handleResponse,
-             			handleError
-             		);
-
-                    Clarifai.getTagsByUrl($scope.url.text).then(
-                    	handleResponse,
-                    	handleError
-                    );
-
-                    Clarifai.getInfo().then(
-                    	handleResponse,
-                    	handleError);
-                    
-                }
-            }]
-        })
-	}
-
-	function handleResponse(response){
-		console.log('promise response:', response);
-	}
-
-	function handleError(err){
-		console.log('promise error:', err);
-	}
 
 });
 
