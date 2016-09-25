@@ -4,7 +4,7 @@
 	margin-right: auto;
 	width: 6em;
 	text-align: center;
-	color: #696969;
+	color: #464646 !important;
 	font-family: 'Lobster', cursive;
 	font-size: 56px;
 }
@@ -37,6 +37,20 @@ button.button-calm.activated {
 
 .tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
     color: #5083BD;
+}
+
+h1 {
+	font-weight: 700;
+	color: #464646 !important;
+    bottom: -38px;
+	text-align: center;
+	margin: auto;
+}
+
+#back {
+	color: #464646 !important;
+	font-size: 22px;
+	bottom: 0px;
 }
 
 .popup-body {

@@ -1,8 +1,17 @@
+/*
+    
+
+
+*/
+
+
 angular.module('starter.controllers', ['ionic'])
 
-.controller('HomeCtrl', function($scope, $ionicPopup, Hunts) {
+.controller('HomeCtrl', function($scope, $ionicPopup, $state, Hunts) {
         
     $scope.locations = [];
+    $scope.items = [];
+    $scope.huntList = [];
     $scope.huntCode = {
         text: ''
     };
@@ -11,15 +20,21 @@ angular.module('starter.controllers', ['ionic'])
     };
 
 
-
+    // Gets data from the service
     Hunts.getData().then(function() {
         $scope.locations = Hunts.locations;
+        $scope.items = Hunts.items;
         $scope.username.text = Hunts.getUsername();
         // console.log($scope.locations);   
         // console.log($scope.username.text);
     });
-    
 
+    Hunts.getHunts().then(function() {
+        $scope.huntList = Hunts.hunts;
+        console.log($scope.huntList);
+    })
+    
+    // Checks inital run of app
     if(Hunts.isInitialRun()) {
         Hunts.setInitialRun('false');
         $ionicPopup.alert({
@@ -38,7 +53,8 @@ angular.module('starter.controllers', ['ionic'])
     }
 
     
-
+    // function to join hunt, calls create hunt
+    // TODO **********************************************************
     $scope.joinHunt = function() {
         $ionicPopup.alert({
             title: 'Join A Scavenger Hunt',
@@ -54,18 +70,152 @@ angular.module('starter.controllers', ['ionic'])
                 text: 'Join!',
                 type: 'button-stable',
                 onTap: function(e) {
-                    console.log($scope.huntCode.text)
-                    // User.deleteFavorite(businessName);
-                    $scope.huntCode.text = '';
-                    // $state.go($state.current, {}, {reload: true});
+                    // Chck ID isn't empty, player isn't playing and ID exists
+                    // If so, joing game, set playing and maybe clear code
+                    if($scope.huntCode.text != '' && Hunts.getPlaying() == '' && Hunts.getHuntByID($scope.huntCode.text) != 0) {
+                        $scope.alertHunt($scope.huntCode.text);
+
+                        // add player
+
+                        // set playing and clear code
+                        Hunts.playing = $scope.huntCode.text;
+                        Hunts.setPlaying($scope.huntCode.text);
+                        $scope.huntCode.text = '';
+                        
+                    } else {
+                        $scope.errorMsg();
+                    }
                 }
             }]
         });
     }
 
+    // add player to database and local copy
+    $scope.joinPlayer = function(ID) {
+        console.log(Hunts.getHuntByID(ID));
+    }
+
+    // function to pick location, calls create hunt
+    // TODO **********************************************************
+    $scope.pickLocation = function(location) {
+        $ionicPopup.alert({
+            title: 'Start A Scavenger Hunt',
+            subTitle: 'Make up a unique code for a hunt and invite your friends:',
+            template: '<input type="text" ng-model="huntCode.text">',
+            scope: $scope,
+            buttons: [
+            { 
+                text: 'Cancel',
+                type: 'button-light'
+            },
+            { 
+                text: 'Create!',
+                type: 'button-stable',
+                onTap: function(e) {
+                    // Check ID isn't empty, player isn't playing already and ID doesn't exist
+                    // Otherwise, push to database
+                    if($scope.huntCode.text != '' && Hunts.getPlaying() == '' && Hunts.getHuntByID($scope.huntCode.text) == 0) {
+                        // create hunt
+                        $scope.alertHunt($scope.huntCode.text);
+                        $scope.createHunt(location, $scope.huntCode.text);
+
+                        // set playing and clear code
+                        Hunts.playing = $scope.huntCode.text;
+                        Hunts.setPlaying($scope.huntCode.text);
+                        $scope.huntCode.text = '';
+                    } else {
+                        $scope.errorMsg();
+                    }
+                }
+            }]
+        });
+    }
+
+    // Creates a hunt object and pushes it to database as well as local copy
+    $scope.createHunt = function(location, ID) {
+        var locationRef = firebase.database().ref('hunts/');
+
+        var data = {
+            id: ID,
+            location: location,
+            items: $scope.getItems(location),
+            people: [{ name: $scope.username.text, score: 0}]
+        }
+
+        locationRef.push(data).then(function() {
+            $scope.huntList.push(data);
+            console.log(data);
+        });
+    }
+
+
+
+    // helper function to get 10 random items
+    $scope.getItems = function(location) {
+        var array = [];
+        var uniqueItems = new Set();
+
+        var i = 0;
+        // get location index
+        for(i = 0; i < $scope.locations.length; i++) {
+            if($scope.locations[i] == location) {
+                break;
+            }
+        }
+
+        // fill up set with 10 unique objects
+        var locationObj = $scope.items[i];
+        var max = Object.keys(locationObj).length;
+        
+
+        while(uniqueItems.size < 10){
+            var number = Math.floor((Math.random() * max) + 1);
+            uniqueItems.add(locationObj['item' + number]);
+        }
+        
+        // put set into an array
+        uniqueItems.forEach(function(value) {
+            array.push(value);
+        })
+
+        return array;
+    }
+
+
+
+    // change state
     $scope.goto = function(toState, param) {
         $state.go(toState, param)
     };
+
+
+
+    // function to alert when hunt successfully joined/created
+    $scope.alertHunt = function(code) {
+        $ionicPopup.alert({
+            title: 'Hunt Started!',
+            template: "<p style='text-align:center;'>Go check out your hunt in the Current Hunt tab! Invite your friends to hunt: '" + code + "'.</p>" ,
+            buttons: 
+            [{ 
+                text: 'Okay!',
+                type: 'button-stable'
+            }]
+            
+        });
+    }
+
+    $scope.errorMsg = function() {
+        $ionicPopup.alert({
+            title: 'Oops!',
+            template: "<p style='text-align:center;'>Something went wrong. Check your ID and try again.</p>" ,
+            buttons: 
+            [{ 
+                text: 'Okay',
+                type: 'button-stable'
+            }]
+            
+        });
+    }
 
 })
 
@@ -75,7 +225,8 @@ angular.module('starter.controllers', ['ionic'])
         text: ''
     };
     $scope.username.text = Hunts.getUsername();
-    console.log($scope.username);
+    // $scope.huntList = Hunts.hunts;  cut this, get individual hunt.
+
 
 })
 
