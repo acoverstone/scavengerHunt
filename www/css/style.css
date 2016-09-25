@@ -77,3 +77,22 @@ a {
 	color: #696969 !important;
 	font-weight: 700 !important;
 }
+
+.item.item-divider {
+	text-align: center;
+}
+
+.bottom-buttons > .button.button-calm {
+	width: 8em;
+	margin-right: 1%;
+	margin-left: 1%;
+	background-color: #5083BD !important;
+	color: #EBEBEB;
+}
+
+.bottom-buttons {
+	margin-right: auto;
+	margin-left: auto;
+	width: 30em;
+	padding-top: 55%;
+}
