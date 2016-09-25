@@ -20,14 +20,12 @@ angular.module('starter.controllers', ['ionic'])
         $scope.items = Hunts.items;
         $scope.username.text = Hunts.getUsername();
         Hunts.getPlaying();
-        // console.log($scope.locations);   
-        // console.log($scope.username.text);
     });
 
     Hunts.getHunts().then(function() {
         $scope.huntList = Hunts.hunts;
         console.log($scope.huntList);
-    })
+    });
 
 
     
@@ -51,7 +49,6 @@ angular.module('starter.controllers', ['ionic'])
 
     
     // function to join hunt, calls create hunt
-    // TODO **********************************************************
     $scope.joinHunt = function() {
         $ionicPopup.alert({
             title: 'Join A Scavenger Hunt',
@@ -110,7 +107,6 @@ angular.module('starter.controllers', ['ionic'])
     }
 
     // function to pick location, calls create hunt
-    // TODO **********************************************************
     $scope.pickLocation = function(location) {
         $ionicPopup.alert({
             title: 'Start A Scavenger Hunt',
@@ -250,9 +246,13 @@ angular.module('starter.controllers', ['ionic'])
 
 
 
-.controller('CurrentCtrl', function($scope, $state, Hunts) {
+.controller('CurrentCtrl', function($scope, $state, Hunts, $ionicPopup) {
+    $scope.huntList = [];
+    $scope.hunt = {};
 
     $scope.$on('$ionicView.enter', function() {
+        $scope.huntList = Hunts.hunts;
+
         $scope.username = {
             text: ''
         };
@@ -261,9 +261,50 @@ angular.module('starter.controllers', ['ionic'])
         $scope.items = $scope.hunt['items'];
     });
 
+
+    $scope.incrementScore = function() {
+
+        for(var i = 0; i < $scope.huntList.length; i++) {
+            if($scope.huntList[i]['id'] == Hunts.playing) {
+                var currentPlayers = $scope.huntList[i]['people'];
+                
+                // find player in list
+                for(var j = 0; j < currentPlayers.length; j++) {
+                    if(currentPlayers[j]['name'] == $scope.username.text) {
+                        var currentScore = currentPlayers[j]['score'];
+                        var updates = {};
+                        updates['hunts/' + keyList[i] + '/people/' + [j] + '/score'] = currentScore + 1;
+                        firebase.database().ref().update(updates);
+
+                        if(currentScore >= 9){ $scope.winGame(); }
+
+                    }
+                }
+
+            }
+        }
+    }
+
+
+    $scope.winGame = function() {
+        $ionicPopup.alert({
+            title: 'YOU WIN!',
+            template: "<p style='text-align:center;'>Congratulations! You won this scavenger hunt! Check out the scoreboard.</p>" ,
+            buttons: 
+            [{ 
+                text: 'Okay!',
+                type: 'button-stable'
+            }]
+            
+        });
+    }
+
+
     $scope.doRefresh = function() {
         Hunts.getHunts().then(function() {
+            $scope.huntList = Hunts.hunts;
             $scope.$broadcast('scroll.refreshComplete');
+            $scope.incrementScore();
         });
     };
 
