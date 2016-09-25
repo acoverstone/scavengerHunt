@@ -6,6 +6,7 @@ angular.module('starter.services', ['ionic.utils'])
         items: [],
         locations: [], 
         hunts: [],
+        keyList: [],
         playing: ''
     }
 
@@ -18,6 +19,10 @@ angular.module('starter.services', ['ionic.utils'])
                     if(count == max) break;
                     count++;
                     o.locations.push(key);
+                }
+
+                for(var key in snapshot.val()){
+                    o.keyList.push(key);
                 }
 
                 var length = Object.keys(snapshot.val()).length;
@@ -90,6 +95,7 @@ angular.module('starter.services', ['ionic.utils'])
 
     o.getPlaying = function() {
         if(Object.keys($localstorage.getObject('playing')).length != 0){
+            o.playing = $localstorage.getObject('playing');
             return $localstorage.getObject('playing');
         }
         return '';
