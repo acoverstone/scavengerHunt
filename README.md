@@ -1,14 +1,28 @@
 Scavenger Hunt
 =====================
 
-App for iOS and Android that uses Clarifai API to identify objects and fill out a scavenger hunt.
+## About This Project
 
-## Using this project
 
-Coming soon....
+This exciting app creates scavenger hunts for you and your friends. Set your location and a 
+scavenger hunt key and you have a full scavenger hunt at your fingertips!  Give your friends
+your key, have them join and then you're good to go!
+
+This app is built using Ionic Framework for iOS and Android. Using the power of Clarifai,
+you just take pictures of the items you are searching got and they are auto-magically marked off your list! First one to find all of the items wins!
+
+
+
+## Install This Project
+
+First clone the repository and then:
+
 ```bash
 npm install -g browserify
 npm install Clarifai
+
+bower install ngCordova
+cordova plugin add cordova-plugin-camera
 ```
 
 From js directory run:
