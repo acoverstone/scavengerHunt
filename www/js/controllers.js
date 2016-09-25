@@ -339,7 +339,6 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
             var downloadURL = uploadTask.snapshot.downloadURL;
 
             $scope.clarifaiTest(downloadURL);
-
         });
         
 
@@ -357,15 +356,18 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
             handleResponse,
             handleError
         );
-
-
     }
 
-    // $scope.clarifaiTest('https://firebasestorage.googleapis.com/v0/b/scavengerhunt-3fa44.appspot.com/o/images%2Ftemp.jpg?alt=media&token=71bc1baa-07a8-4539-b17e-d87c41c7f696');
+    $scope.checkPicture = function(response) {
+        console.log(response);
+    }
+
+    $scope.clarifaiTest('https://firebasestorage.googleapis.com/v0/b/scavengerhunt-3fa44.appspot.com/o/images%2FFriends.jpg?alt=media&token=8e57acfd-2a7a-4883-a57e-0950d714ee07');
 
 
     function handleResponse(response){
-        console.log('promise response:', response);
+        // console.log('promise response:', response);
+        $scope.checkPicture(response)
     }
 
     function handleError(err){

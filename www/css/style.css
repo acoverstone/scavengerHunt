@@ -1,5 +1,41 @@
 ion-content {
-	background-color: #DFDFDF !important;
+	/*background-color: #F2F2F2 !important;*/
+	background: url(../img/slice3.png) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-mox-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.locationSlogan {
+	color: white;
+	font: 16px "Lato", sans-serif !important;
+	margin-top: 30px;
+	margin-left: 17px;
+	margin-right: 17px;
+	text-align: center;
+}
+
+.locationButton {
+	display: block;
+	font: 18px "Lato", sans-serif !important;
+	margin-top: 20px;
+	background-color: #72C5BB !important;
+	color: white;
+	margin-right: auto;
+	margin-left: auto;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 20px 20px;
+}
+
+.logoImg {
+	display: block;
+	max-width: 75%;
+	max-height: 37%;
+	margin-top: 70px;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 .header {
@@ -13,20 +49,20 @@ ion-content {
 }
 
 .listTitle {
-	color: #464646;
+	font: 16px "Lato", sans-serif !important;
+	font-weight: 700 !important;
+	color: #464646 !important;
 	text-align: center;
-	font: 25px "Lato", sans-serif !important;
-	font-weight: 900;
 }
 
 .button.button-calm, button.button-calm.activated {
-	width: 5em;
-	background-color: #5083BD !important;
+	width: 9em;
+	background-color: #72C5BB !important;
 	color: #EBEBEB;
 }
 
 button.button-calm.activated {
-	background-color: #4572A4 !important;
+	background-color: #72C5BB !important;
 }
 
 .button-stable {
@@ -46,7 +82,7 @@ button.button-calm.activated {
 }
 
 .tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
-    color: #5083BD;
+    color: #72C5BB;
 }
 
 h1 {
@@ -81,38 +117,32 @@ a {
 
 #noHunt {
 	text-align: center;
-	padding-top: 30%;
 	margin-left: 7%;
 	margin-right: 7%;
-	color: #696969 !important;
+	color: white !important;
+	font-family: 'Lato' !important;
 	font-weight: 700 !important;
+	text-align: center;
+	padding-top: 30%;
+
 }
 
 .item.item-divider {
 	text-align: center;
 }
 
-.bottom-buttons > .button.button-calm {
-	width: 8em;
-	margin-right: 1%;
-	margin-left: 1%;
-	background-color: #5083BD !important;
-	color: #EBEBEB;
-}
-
-.bottom-buttons {
-	margin-right: auto;
-	margin-left: auto;
-	width: 30em;
-	padding-top: 55%;
-}
 
 .huntList {
 	margin: 35px;
 }
 
 
-.emptyCheck, .ion-android-checkbox-outline-blank{
+.emptyCheck, .ion-android-checkbox-outline-blank {
+	color:#696969 !important;
+	font-size: 160% !important;
+}
+
+.emptyCheck, .ion-android-checkbox-outline {
 	color:#696969 !important;
 	font-size: 160% !important;
 }

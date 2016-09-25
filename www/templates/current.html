@@ -1,7 +1,9 @@
 <ion-view view-title="Current Hunts">
 
 	<ion-header-bar class="bar">
+		<button class="button button-clear ion-trophy" id="back" style="font-size: 22px; bottom: 0px; color:#5A5A5A !important" ng-click=""></button>
         <h1 class="title">Your Scavenger Hunt</h1>
+        <button class="button button-clear ion-ios-camera" id="back" style="font-size: 30px; bottom: 0px; color:#5A5A5A !important" ng-click="takePicture()"></button>
    	</ion-header-bar>
 
   	<ion-content>
@@ -14,27 +16,17 @@
   		<h4 id="noHunt" ng-if="hunt == 0">Hi, {{username.text}}! Join a scavenger hunt or create one from the home page!</h4>
 
     	<div class="list card huntList" ng-if="hunt != 0">
-    		<div class="item ">
-    			<h4 class="listTitle">{{hunt.location}} Scavenger Hunt: "{{hunt.id}}"</h4>
+    		<div class="item item-icon-left">
+    			<h2 class="listTitle">{{hunt.location}} Scavenger Hunt &nbsp;&nbsp;<span class="" style="font-weight:400; font-size:70%; color:#ABABAB !important" >{{hunt.id}}</span></h2></h2>
     		</div>
 
 			<a class="item item-icon-left" ng-repeat="item in items">
-    			<i class="icon emptyCheck ion-android-checkbox-outline-blank"></i>
+    			<i class="icon emptyCheck ion-android-checkbox-outline-blank" ng-class=""></i>
+    			<!-- ion-android-checkbox-outline -->
     			<p style="color:#696969 !important">{{item}}</p>
   			</a>
 
     	</div>
 
-    	<!-- <div class="bottom-buttons">
-    		<button class="button button-calm">
-    			Leave
-    		</button>
-    		<button class="button button-calm">
-    			Scoreboard
-    		</button>
-    		<button class="button button-calm" ng-click="takePicture()">
-    			Take Picture
-    		</button>
-      	</div> -->
   	</ion-content>
 </ion-view>
